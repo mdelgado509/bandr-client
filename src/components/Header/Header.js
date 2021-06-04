@@ -6,7 +6,6 @@ const authenticatedOptions = (
   <Fragment>
     <Nav.Link href="#change-password">Change Password</Nav.Link>
     <Nav.Link href="#sign-out">Sign Out</Nav.Link>
-    <Nav.Link href="#create-profile">Create Profile</Nav.Link>
   </Fragment>
 )
 
@@ -14,6 +13,20 @@ const unauthenticatedOptions = (
   <Fragment>
     <Nav.Link href="#sign-up">Sign Up</Nav.Link>
     <Nav.Link href="#sign-in">Sign In</Nav.Link>
+  </Fragment>
+)
+
+const userOptions = (
+  <Fragment>
+    {authenticatedOptions}
+    <Nav.Link href="#create-profile">Create Profile</Nav.Link>
+  </Fragment>
+)
+
+const profileOptions = (
+  <Fragment>
+    {authenticatedOptions}
+    <Nav.Link href="#profile">Profile</Nav.Link>
   </Fragment>
 )
 
@@ -33,7 +46,7 @@ const Header = ({ user }) => (
       <Nav className="ml-auto">
         { user && <span className="navbar-text mr-2">Welcome, {user.email}</span>}
         { alwaysOptions }
-        { user ? authenticatedOptions : unauthenticatedOptions }
+        { user ? (user.profileId ? profileOptions : userOptions) : unauthenticatedOptions }
       </Nav>
     </Navbar.Collapse>
   </Navbar>

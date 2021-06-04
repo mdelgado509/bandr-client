@@ -1,5 +1,7 @@
 // import React and useState from `react`
 import React, { useState } from 'react'
+// import redirect
+// import { Redirect } from 'react-router-dom'
 // import createProfile axios call
 import { createProfile } from '../../api/profiles'
 
@@ -11,6 +13,7 @@ import Button from 'react-bootstrap/Button'
 // define function component ProfileCreate
 const ProfileCreate = props => {
   const [profile, setProfile] = useState({ type: '', title: '', text: '' })
+  // const [profileCreated]
 
   const handleChange = event => {
     event.persist()
@@ -29,14 +32,23 @@ const ProfileCreate = props => {
     event.preventDefault()
     console.log(profile)
 
-    // deconstruct props
-    const { user } = props
-
     // create profile axios call
     createProfile(profile, user)
+      // add success messaging
       .then(() => console.log('suc'))
+      // then history.push home for now
+      // add failure messaging
+      // rest state
       .catch(() => console.log('fail'))
   }
+
+  // deconstruct props
+  const { user } = props
+
+  // if (user.profileId) {
+  //   console.log(user)
+  //   return <Redirect to="/change-password" />
+  // }
 
   return (
     <div className="row">
