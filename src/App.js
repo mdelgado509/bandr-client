@@ -11,6 +11,7 @@ import SignOut from './components/SignOut/SignOut'
 import ChangePassword from './components/ChangePassword/ChangePassword'
 import ProfileCreate from './components/ProfileCreate/ProfileCreate'
 import Profile from './components/Profile/Profile'
+import ProfileUpdate from './components/ProfileUpdate/ProfileUpdate'
 
 class App extends Component {
   constructor (props) {
@@ -72,6 +73,9 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/profile' render={() => (
             <Profile msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/update-profile' render={() => (
+            <ProfileUpdate msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>

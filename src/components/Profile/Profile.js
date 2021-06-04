@@ -4,19 +4,22 @@ import React, { useState, useEffect } from 'react'
 // import userProfile axios call
 import { userProfile } from '../../api/profiles'
 // import messaging
-// import messages from '../AutoDismissAlert/messages'
+import messages from '../AutoDismissAlert/messages'
 
-// import Card from react bootstrap
+// import Card, Button from react bootstrap
 import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
 
 // define function component Profile
 const Profile = props => {
   // deconstruct props *** add msgAlert
-  const { user } = props
+  const { user, msgAlert } = props
 
   const [profile, setProfile] = useState({ title: '', type: '', text: '', id: '' })
+  const [updating, setUpdating] = useState(false)
 
   useEffect(() => {
+    // make axios call
     userProfile(user)
       .then(res => {
         setProfile({
@@ -26,8 +29,39 @@ const Profile = props => {
           id: res.data.profile._id
         })
       })
-      .catch(console.error)
+      .catch(error => {
+        setProfile({ title: '', type: '', text: '', id: '' })
+        msgAlert({
+          heading: 'Update Redirect Fail: ' + error.message,
+          message: messages.updateLinkFail,
+          variant: 'danger'
+        })
+      })
   })
+
+  const updateSwitch = event => {
+    // prevent event default
+    event.preventDefault()
+    // set updating state to opposite current value
+    setUpdating(!updating)
+  }
+
+  if (updating) {
+    return (
+      <div className="row">
+        <div className="col-sm-10 col-md-8 mx-auto mt-5">
+          <h3>You are trying to update!</h3>
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={updateSwitch}
+          >
+            Go Back
+          </Button>
+        </div>
+      </div>
+    )
+  }
 
   if (!profile) {
     return (
@@ -49,8 +83,8 @@ const Profile = props => {
             <Card.Text>
               {profile.text}
             </Card.Text>
-            <Card.Link href="#">Card Link</Card.Link>
-            <Card.Link href="#">Another Link</Card.Link>
+            <Card.Link href="#update-profile" onClick={updateSwitch}>Update</Card.Link>
+            <Card.Link href="#">Delete</Card.Link>
           </Card.Body>
         </Card>
       </div>
