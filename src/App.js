@@ -10,6 +10,7 @@ import SignIn from './components/SignIn/SignIn'
 import SignOut from './components/SignOut/SignOut'
 import ChangePassword from './components/ChangePassword/ChangePassword'
 import ProfileCreate from './components/ProfileCreate/ProfileCreate'
+import Profile from './components/Profile/Profile'
 
 class App extends Component {
   constructor (props) {
@@ -68,6 +69,9 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/create-profile' render={() => (
             <ProfileCreate msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/profile' render={() => (
+            <Profile msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>

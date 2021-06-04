@@ -1,9 +1,11 @@
 // import React and useState from `react`
 import React, { useState } from 'react'
 // import redirect
-// import { Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 // import createProfile axios call
 import { createProfile } from '../../api/profiles'
+// import messaging
+import messages from '../AutoDismissAlert/messages'
 
 // import bootstrap form and button
 import Form from 'react-bootstrap/Form'
@@ -12,8 +14,12 @@ import Button from 'react-bootstrap/Button'
 
 // define function component ProfileCreate
 const ProfileCreate = props => {
+  // deconstruct props
+  const { user, msgAlert } = props
+
+  // define hook states
   const [profile, setProfile] = useState({ type: '', title: '', text: '' })
-  // const [profileCreated]
+  const [profileCreated, setProfileCreated] = useState(false)
 
   const handleChange = event => {
     event.persist()
@@ -30,25 +36,37 @@ const ProfileCreate = props => {
   const handleSubmit = event => {
     // prevent refresh page
     event.preventDefault()
-    console.log(profile)
 
     // create profile axios call
     createProfile(profile, user)
+      // set user profileId to change user state
+      .then(res => {
+        // set user profileId to profile id just created
+        console.log(res)
+        user.profileId = res.data.profile._id
+        console.log(user)
+      })
+      // set state to profile created
+      .then(() => setProfileCreated(true))
       // add success messaging
-      .then(() => console.log('suc'))
-      // then history.push home for now
-      // add failure messaging
-      // rest state
-      .catch(() => console.log('fail'))
+      .then(() => msgAlert({
+        heading: 'Profile Created Succesfully',
+        message: messages.createProfileSuccess,
+        variant: 'success'
+      }))
+      .catch(error => {
+        setProfile({ type: '', title: '', text: '' })
+        msgAlert({
+          heading: 'Profile Create Error: ' + error.message,
+          message: messages.createProfileFailure,
+          variant: 'danger'
+        })
+      })
   }
 
-  // deconstruct props
-  const { user } = props
-
-  // if (user.profileId) {
-  //   console.log(user)
-  //   return <Redirect to="/change-password" />
-  // }
+  if (profileCreated) {
+    return <Redirect to="/profile" />
+  }
 
   return (
     <div className="row">
