@@ -14,15 +14,16 @@ export const createProfile = (profile, user) => {
   })
 }
 
-// export const indexPosts = (user) => {
-//   return axios({
-//     method: 'GET',
-//     url: apiUrl + '/posts',
-//     headers: {
-//       'Authorization': `Bearer ${user.token}`
-//     }
-//   })
-// }
+// export index user profile (user as arg)
+export const userProfile = (user) => {
+  return axios({
+    method: 'GET',
+    url: apiUrl + '/profile',
+    headers: {
+      'Authorization': `Bearer ${user.token}`
+    }
+  })
+}
 //
 // export const deletePost = (user, id) => {
 //   return axios({
