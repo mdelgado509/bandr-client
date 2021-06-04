@@ -15,7 +15,7 @@ export const createProfile = (profile, user) => {
 }
 
 // export index user profile (user as arg)
-export const userProfile = (user) => {
+export const userProfile = user => {
   return axios({
     method: 'GET',
     url: apiUrl + '/profile',
@@ -24,6 +24,18 @@ export const userProfile = (user) => {
     }
   })
 }
+
+// export delete user profile (user as arg)
+export const deleteProfile = user => {
+  return axios({
+    method: 'DELETE',
+    url: apiUrl + '/profile/destroy',
+    headers: {
+      'Authorization': `Bearer ${user.token}`
+    }
+  })
+}
+
 //
 // export const deletePost = (user, id) => {
 //   return axios({

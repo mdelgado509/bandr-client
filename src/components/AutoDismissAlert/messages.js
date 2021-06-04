@@ -8,5 +8,5 @@ export default {
   changePasswordFailure: 'Failed to change passwords. Check your old password and try again.',
   createProfileSuccess: 'Successfully created! Now start matching!',
   createProfileFailure: 'Profile creation failed. You may have created a profile already',
-  updateLinkFail: 'Something went wrong'
+  profileDeleted: 'You deleted your profile. Create another one to start matching.'
 }
