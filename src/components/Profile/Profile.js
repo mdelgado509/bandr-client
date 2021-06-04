@@ -3,13 +3,14 @@ import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 
 // import userProfile axios call
-import { userProfile, deleteProfile } from '../../api/profiles'
+import { userProfile, deleteProfile, updateProfile } from '../../api/profiles'
 // import messaging
 import messages from '../AutoDismissAlert/messages'
 
 // import Card, Button from react bootstrap
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 
 // define function component Profile
 const Profile = props => {
@@ -40,7 +41,44 @@ const Profile = props => {
           variant: 'danger'
         })
       })
-  })
+  }, [updating])
+
+  const handleChange = event => {
+    event.persist()
+
+    setProfile(prevState => {
+      const updatedField = { [event.target.name]: event.target.value }
+
+      const profileToUpdate = Object.assign({}, prevState, updatedField)
+
+      return profileToUpdate
+    })
+  }
+
+  const handleSubmit = event => {
+    console.log('test')
+    // prevent refresh page
+    event.preventDefault()
+
+    // make update profile axios call send profile and user
+    updateProfile(profile, user)
+      .then(res => {
+        msgAlert({
+          heading: 'Profile Updated Succesfully',
+          message: messages.updatedProfileSuccess,
+          variant: 'success'
+        })
+      })
+      .then(() => setUpdating(false))
+      .catch(error => {
+        setProfile({ type: '', title: '', text: '' })
+        msgAlert({
+          heading: 'Profile Update Error: ' + error.message,
+          message: messages.updateProfileFailure,
+          variant: 'danger'
+        })
+      })
+  }
 
   // destroy axios call
   const destroy = event => {
@@ -74,13 +112,44 @@ const Profile = props => {
       <div className="row">
         <div className="col-sm-10 col-md-8 mx-auto mt-5">
           <h3>You are trying to update!</h3>
-          <Button
-            variant="primary"
-            type="submit"
-            onClick={updateSwitch}
-          >
-            Go Back
-          </Button>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                value={profile.title}
+                name="title"
+                placeholder={profile.title}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="description">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                as="textarea"
+                value={profile.text}
+                name="text"
+                placeholder={profile.text}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Button
+              variant="primary"
+              type="submit"
+            >
+              Submit
+            </Button>
+            <Button
+              variant="primary"
+              type="button"
+              onClick={updateSwitch}
+            >
+              Go Back
+            </Button>
+          </Form>
         </div>
       </div>
     )
@@ -144,37 +213,3 @@ const Profile = props => {
 }
 
 export default Profile
-
-// import React, { useState, useEffect } from 'react'
-// import { Link } from 'react-router-dom'
-// import axios from 'axios'
-//
-// import apiUrl from '../../apiConfig'
-// import Layout from '../shared/Layout'
-//
-// const Books = props => {
-//   const [books, setBooks] = useState([])
-//
-//   useEffect(() => {
-//     axios(`${apiUrl}/books`)
-//       .then(res => setBooks(res.data.books))
-//       .catch(console.error)
-//   })
-//
-//   const booksJsx = books.map(book => (
-//     <li key={book._id}>
-//       <Link to={`/books/${book._id}`}>{book.title}</Link>
-//     </li>
-//   ))
-//
-//   return (
-//     <Layout>
-//       <h4>Books</h4>
-//       <ul>
-//         {booksJsx}
-//       </ul>
-//     </Layout>
-//   )
-// }
-//
-// export default Books

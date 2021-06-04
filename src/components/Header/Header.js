@@ -27,6 +27,7 @@ const profileOptions = (
   <Fragment>
     {authenticatedOptions}
     <Nav.Link href="#profile">Profile</Nav.Link>
+    <Nav.Link href="#profiles">Profiles</Nav.Link>
   </Fragment>
 )
 
