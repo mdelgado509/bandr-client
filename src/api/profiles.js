@@ -47,6 +47,16 @@ export const updateProfile = (profile, user) => {
   })
 }
 
+export const indexProfiles = (user) => {
+  return axios({
+    method: 'GET',
+    url: apiUrl + '/profiles',
+    headers: {
+      'Authorization': `Bearer ${user.token}`
+    }
+  })
+}
+
 //
 // export const deletePost = (user, id) => {
 //   return axios({

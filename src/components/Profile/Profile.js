@@ -33,10 +33,10 @@ const Profile = props => {
           id: res.data.profile._id
         })
       })
-      .catch(() => {
+      .catch(error => {
         setProfile({ title: '', type: '', text: '', id: '' })
         msgAlert({
-          heading: 'Profile deleted',
+          heading: 'Profile Error: ' + error.message,
           message: messages.profileDeleted,
           variant: 'danger'
         })

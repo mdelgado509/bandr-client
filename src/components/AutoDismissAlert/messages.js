@@ -10,5 +10,7 @@ export default {
   createProfileFailure: 'Profile creation failed. You may have created a profile already',
   profileDeleted: 'You deleted your profile. Create another one to start matching.',
   updatedProfileSuccess: 'You updated your profile. Get matching!',
-  updateProfileFailure: 'Something went wrong. Unable to update your profile.'
+  updateProfileFailure: 'Something went wrong. Unable to update your profile.',
+  indexProfilesSuccess: 'Here are your potential matches!',
+  indexProfilesFailure: 'Something went wrong.'
 }
