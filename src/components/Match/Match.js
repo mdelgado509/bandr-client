@@ -72,6 +72,14 @@ const Match = props => {
     }
   }
 
+  // matchProfile function
+  const matchProfile = event => {
+    // prevent default refresh
+    event.preventDefault()
+    // console log the event.target.id
+    console.log(event.target.id)
+  }
+
   // if profiles array is populated
   if (profiles.length > 0) {
     // set currentProfile to skipCounter index
@@ -87,7 +95,7 @@ const Match = props => {
                 {currentProfile.text}
               </Card.Text>
               <Card.Link href="#" onClick={skipProfile}>Skip</Card.Link>
-              <Card.Link href="#">Match</Card.Link>
+              <Card.Link href="#" id={currentProfile._id} onClick={matchProfile}>Match</Card.Link>
             </Card.Body>
           </Card>
         </div>
