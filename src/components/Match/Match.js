@@ -1,7 +1,7 @@
 // import react
 import React, { useState, useEffect } from 'react'
-import { userProfile, indexProfiles } from '../../api/profiles'
-import { updateMatch } from '../../api/matches'
+import { userProfile } from '../../api/profiles'
+import { showMatches, updateMatch } from '../../api/matches'
 // import messaging
 import messages from '../AutoDismissAlert/messages'
 
@@ -24,7 +24,7 @@ const Match = props => {
         // set the state type to the user profiles type
         setType(res.data.profile.type)
         // make indexProfiles axios call
-        indexProfiles(user)
+        showMatches(user, type)
           // use filter array iteration method to map profiles that aren't the same
           // type as the user
           .then(res => {
@@ -58,7 +58,7 @@ const Match = props => {
           variant: 'danger'
         })
       })
-  }, [type])
+  }, [])
 
   // skip profile function
   const skipProfile = () => {

@@ -15,7 +15,7 @@ import Button from 'react-bootstrap/Button'
 // define function component ProfileCreate
 const ProfileCreate = props => {
   // deconstruct props
-  const { user, msgAlert } = props
+  const { user, msgAlert, setUser } = props
 
   // define hook states
   const [profile, setProfile] = useState({ type: '', title: '', text: '' })
@@ -43,6 +43,9 @@ const ProfileCreate = props => {
       .then(res => {
         // set user profileId to profile id just created
         user.profileId = res.data.profile._id
+        // create temp object\
+        const tempObj = { ...user, profileId: res.data.profile._id }
+        setUser(tempObj)
       })
       // set state to profile created
       .then(() => setProfileCreated(true))

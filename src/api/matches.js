@@ -2,6 +2,16 @@
 import apiUrl from '../apiConfig'
 import axios from 'axios'
 
+export const showMatches = (user, type) => {
+  return axios({
+    method: 'GET',
+    url: apiUrl + '/match/' + type,
+    headers: {
+      'Authorization': `Bearer ${user.token}`
+    }
+  })
+}
+
 // updateMatch passing user and id
 export const updateMatch = (id, user) => {
   return axios({
