@@ -56,7 +56,6 @@ const Profile = props => {
   }
 
   const handleSubmit = event => {
-    console.log('test')
     // prevent refresh page
     event.preventDefault()
 
@@ -90,7 +89,21 @@ const Profile = props => {
       .then(() => setDeleted(true))
       // set user.profileId to null
       .then(user.profileId = null)
-      .catch(console.error)
+      // send messaging back to user
+      .then(() => {
+        msgAlert({
+          heading: 'Profile Deleted',
+          message: messages.deleteProfileSuccess,
+          variant: 'success'
+        })
+      })
+      .catch(error => {
+        msgAlert({
+          heading: 'Profile Delete Failure: ' + error.message,
+          message: messages.deleteProfileSuccess,
+          variant: 'success'
+        })
+      })
   }
 
   const updateSwitch = event => {

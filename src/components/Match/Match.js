@@ -8,7 +8,7 @@ import messages from '../AutoDismissAlert/messages'
 import Card from 'react-bootstrap/Card'
 
 // define Profiles function component
-const Profiles = props => {
+const Match = props => {
   const [type, setType] = useState(null)
   const [profiles, setProfiles] = useState([])
   const [skipCounter, setSkipCounter] = useState(0)
@@ -16,7 +16,7 @@ const Profiles = props => {
   // deconstruct user from props
   const { user, msgAlert } = props
 
-  // useEffect to set profile type state ***only on first render***
+  // useEffect to set profile type state
   useEffect(() => {
     userProfile(user)
       .then(res => {
@@ -104,4 +104,4 @@ const Profiles = props => {
   )
 }
 
-export default Profiles
+export default Match
