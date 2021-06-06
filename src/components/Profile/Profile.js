@@ -94,7 +94,10 @@ const Profile = props => {
       // set deleted state
       .then(() => setDeleted(true))
       // set user.profileId to null
-      .then(user.profileId = null)
+      .then(() => {
+        user.profileId = null
+        setUser(user)
+      })
       // send messaging back to user
       .then(() => {
         msgAlert({
