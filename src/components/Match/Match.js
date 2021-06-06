@@ -61,9 +61,10 @@ const Match = props => {
   }, [type])
 
   // skip profile function
-  const skipProfile = event => {
-    // prevent default refresh page
-    event.preventDefault()
+  const skipProfile = () => {
+    // // otherwise prevent default refresh page
+    // event.preventDefault()
+
     // if skipCounter is equal to the last index (length of the profiles array - 1) reset the counter
     if (skipCounter === (profiles.length - 1)) {
       setSkipCounter(0)
@@ -77,25 +78,28 @@ const Match = props => {
   const matchProfile = event => {
     // prevent default refresh
     event.preventDefault()
-    // console log the event.target.id
-    console.log(event.target.id)
 
     // make updateMatch axios call (passing profileId)
     updateMatch(event.target.id, user)
-      .then(() => console.log('success'))
+      // console log response
+      .then(res => {
+        // if a match was created
+        if (res.status === 201) {
+          // increase skipCounter
+          skipProfile()
+          // remove profile from match view
+          // no messages back, just skip user
+          // if a match is updated
+        } else if (res.status === 200) {
+          // increase skipCounter
+          skipProfile()
+          // remove profile from match view
+          // send user msg that they matched with this profile to view matches
+        } else {
+          console.log('something else is wrong')
+        }
+      })
       .catch(error => console.log(error))
-    /*
-      // update the match
-      // if error log error
-        // if error indicates match not found
-          // make createMatch axios call (passing profileId)
-            // then
-              // increase skipCounter
-            // catch
-              // user msg error
-        // if another error
-          // send user msg error back
-      */
   }
 
   // if profiles array is populated
@@ -112,7 +116,16 @@ const Match = props => {
               <Card.Text>
                 {currentProfile.text}
               </Card.Text>
-              <Card.Link href="#" onClick={skipProfile}>Skip</Card.Link>
+              <Card.Link href="#" onClick={event => {
+                // because calling skipProfile within matchProfile caused
+                // synthetic event warnings
+                // (related to event.preventDefault() vs event.persist())
+                event.preventDefault()
+                // call skipProfile
+                skipProfile()
+              }}>
+              Skip
+              </Card.Link>
               <Card.Link href="#" id={currentProfile._id} onClick={matchProfile}>Match</Card.Link>
             </Card.Body>
           </Card>
