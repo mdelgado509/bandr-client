@@ -42,9 +42,7 @@ const ProfileCreate = props => {
       // set user profileId to change user state
       .then(res => {
         // set user profileId to profile id just created
-        console.log(res)
         user.profileId = res.data.profile._id
-        console.log(user)
       })
       // set state to profile created
       .then(() => setProfileCreated(true))

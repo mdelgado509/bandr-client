@@ -1,6 +1,7 @@
 // import react
 import React, { useState, useEffect } from 'react'
 import { userProfile, indexProfiles } from '../../api/profiles'
+import { updateMatch } from '../../api/matches'
 // import messaging
 import messages from '../AutoDismissAlert/messages'
 
@@ -78,6 +79,23 @@ const Match = props => {
     event.preventDefault()
     // console log the event.target.id
     console.log(event.target.id)
+
+    // make updateMatch axios call (passing profileId)
+    updateMatch(event.target.id, user)
+      .then(() => console.log('success'))
+      .catch(error => console.log(error))
+    /*
+      // update the match
+      // if error log error
+        // if error indicates match not found
+          // make createMatch axios call (passing profileId)
+            // then
+              // increase skipCounter
+            // catch
+              // user msg error
+        // if another error
+          // send user msg error back
+      */
   }
 
   // if profiles array is populated
