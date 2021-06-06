@@ -2,7 +2,7 @@
 import apiUrl from '../apiConfig'
 import axios from 'axios'
 
-export const showMatches = (user, type) => {
+export const showPotentialMatches = (user, type) => {
   return axios({
     method: 'GET',
     url: apiUrl + '/match/' + type,
