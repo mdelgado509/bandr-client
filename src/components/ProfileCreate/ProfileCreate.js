@@ -39,13 +39,12 @@ const ProfileCreate = props => {
 
     // create profile axios call
     createProfile(profile, user)
-      // set user profileId to change user state
+      // set user profileId to res.data.profile
       .then(res => {
-        // set user profileId to profile id just created
-        user.profileId = res.data.profile._id
-        // create temp object\
-        const tempObj = { ...user, profileId: res.data.profile._id }
-        setUser(tempObj)
+        // set profileId attribute to profile created
+        user.profileId = res.data.profile
+        // set user
+        setUser(user)
       })
       // set state to profile created
       .then(() => setProfileCreated(true))

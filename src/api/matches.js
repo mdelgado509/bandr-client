@@ -2,10 +2,10 @@
 import apiUrl from '../apiConfig'
 import axios from 'axios'
 
-export const showPotentialMatches = (user, type) => {
+export const showPotentialMatches = user => {
   return axios({
     method: 'GET',
-    url: apiUrl + '/match/' + type,
+    url: apiUrl + '/match/' + user.profileId.type,
     headers: {
       'Authorization': `Bearer ${user.token}`
     }

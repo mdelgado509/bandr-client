@@ -1,6 +1,5 @@
 // import react
 import React, { useState, useEffect } from 'react'
-import { userProfile } from '../../api/profiles'
 import { showPotentialMatches, updateMatch } from '../../api/matches'
 // import messaging
 import messages from '../AutoDismissAlert/messages'
@@ -10,7 +9,6 @@ import Card from 'react-bootstrap/Card'
 
 // define Profiles function component
 const Match = props => {
-  const [type, setType] = useState(null)
   const [profiles, setProfiles] = useState([])
   const [skipCounter, setSkipCounter] = useState(0)
 
@@ -19,45 +17,46 @@ const Match = props => {
 
   // useEffect to set profile type state
   useEffect(() => {
-    userProfile(user)
-      .then(res => {
-        // set the state type to the user profiles type
-        setType(res.data.profile.type)
-        // make indexProfiles axios call
-        showPotentialMatches(user, type)
-          // use filter array iteration method to map profiles that aren't the same
-          // type as the user
-          .then(res => {
-            // defined array of profiles
-            const profiles = res.data.profiles
-            // filter an array of profiles not the same type as the user
-            return profiles.filter(profile => profile.type !== type)
-          })
-          // set profiles to profiles state
-          .then(profiles => setProfiles(profiles))
-          // add success messaging
-          .then(() => msgAlert({
-            heading: 'Profiles loaded successfully!',
-            message: messages.indexProfilesSuccess,
-            variant: 'success'
-          }))
-          // send back user error messaging
-          .catch(error => {
-            msgAlert({
-              heading: 'Profiles error: ' + error.message,
-              message: messages.indexProfilesFailure,
-              variant: 'danger'
-            })
-          })
-      })
-      // if user profile isn't found throw an error
+    // make indexProfiles axios call
+    showPotentialMatches(user)
+      // // use filter array iteration method to map profiles that aren't the same
+      // // type as the user
+      // .then(res => {
+      //   // defined array of profiles
+      //   const profiles = res.data.profiles
+      //   // filter an array of profiles not the same type as the user
+      //   return profiles.filter(profile => profile.type !== type)
+      // })
+      // set res.data.profiles to profiles state
+      .then(res => setProfiles(res.data.profiles))
+      // add success messaging
+      .then(() => msgAlert({
+        heading: 'Profiles loaded successfully!',
+        message: messages.indexProfilesSuccess,
+        variant: 'success'
+      }))
+      // send back user error messaging
       .catch(error => {
         msgAlert({
-          heading: 'Profile Error: ' + error.message,
-          message: messages.profileDeleted,
+          heading: 'Profiles error: ' + error.message,
+          message: messages.indexProfilesFailure,
           variant: 'danger'
         })
       })
+    // userProfile(user)
+    //   .then(res => {
+    //     // set the state type to the user profiles type
+    //     setType(res.data.profile.type)
+      //
+      // })
+      // // if user profile isn't found throw an error
+      // .catch(error => {
+      //   msgAlert({
+      //     heading: 'Profile Error: ' + error.message,
+      //     message: messages.profileDeleted,
+      //     variant: 'danger'
+      //   })
+      // })
   }, [])
 
   // skip profile function

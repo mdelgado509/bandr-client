@@ -15,7 +15,7 @@ import Form from 'react-bootstrap/Form'
 // define function component Profile
 const Profile = props => {
   // deconstruct props *** add msgAlert
-  const { user, msgAlert } = props
+  const { user, msgAlert, setUser } = props
 
   const [profile, setProfile] = useState({ title: '', type: '', text: '', id: '' })
   const [updating, setUpdating] = useState(false)
@@ -61,7 +61,13 @@ const Profile = props => {
 
     // make update profile axios call send profile and user
     updateProfile(profile, user)
-      .then(res => {
+      .then(() => {
+        // set user profile title
+        user.profileId.title = profile.title
+        // set user profile text
+        user.profileId.text = profile.text
+        // set user
+        setUser(user)
         msgAlert({
           heading: 'Profile Updated Succesfully',
           message: messages.updatedProfileSuccess,
