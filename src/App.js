@@ -75,7 +75,7 @@ class App extends Component {
             <Profile msgAlert={this.msgAlert} user={user} setUser={this.setUser} />
           )} />
           <AuthenticatedRoute user={user} path='/match' render={() => (
-            <Match msgAlert={this.msgAlert} user={user} />
+            <Match msgAlert={this.msgAlert} user={user} setUser={this.setUser} />
           )} />
         </main>
       </Fragment>

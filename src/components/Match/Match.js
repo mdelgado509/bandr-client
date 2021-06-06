@@ -13,20 +13,12 @@ const Match = props => {
   const [skipCounter, setSkipCounter] = useState(0)
 
   // deconstruct user from props
-  const { user, msgAlert } = props
+  const { user, msgAlert, setUser } = props
 
   // useEffect to set profile type state
   useEffect(() => {
     // make indexProfiles axios call
     showPotentialMatches(user)
-      // // use filter array iteration method to map profiles that aren't the same
-      // // type as the user
-      // .then(res => {
-      //   // defined array of profiles
-      //   const profiles = res.data.profiles
-      //   // filter an array of profiles not the same type as the user
-      //   return profiles.filter(profile => profile.type !== type)
-      // })
       // set res.data.profiles to profiles state
       .then(res => setProfiles(res.data.profiles))
       // add success messaging
@@ -43,20 +35,6 @@ const Match = props => {
           variant: 'danger'
         })
       })
-    // userProfile(user)
-    //   .then(res => {
-    //     // set the state type to the user profiles type
-    //     setType(res.data.profile.type)
-      //
-      // })
-      // // if user profile isn't found throw an error
-      // .catch(error => {
-      //   msgAlert({
-      //     heading: 'Profile Error: ' + error.message,
-      //     message: messages.profileDeleted,
-      //     variant: 'danger'
-      //   })
-      // })
   }, [])
 
   // skip profile function
@@ -86,8 +64,11 @@ const Match = props => {
         if (res.status === 201) {
           // increase skipCounter
           skipProfile()
-          // remove profile from match view
-          // no messages back, just skip user
+          // add event.target.id to user.profileId.sentMatches array
+          user.profileId.sentMatches.push(event.target.id)
+          // setUser
+          setUser(user)
+
           // if a match is updated
         } else if (res.status === 200) {
           // increase skipCounter
