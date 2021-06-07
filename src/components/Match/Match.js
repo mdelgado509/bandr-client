@@ -20,7 +20,15 @@ const Match = props => {
     // make indexProfiles axios call
     showPotentialMatches(user)
       // set res.data.profiles to profiles state
-      .then(res => setProfiles(res.data.profiles))
+      .then(res => {
+        const unfilteredProfiles = res.data.profiles
+
+        const userSentMatches = user.profileId.sentMatches
+
+        const filteredProfiles = unfilteredProfiles.filter(profile => !userSentMatches.includes(profile._id))
+
+        setProfiles(filteredProfiles)
+      })
       // add success messaging
       .then(() => msgAlert({
         heading: 'Profiles loaded successfully!',
@@ -55,6 +63,7 @@ const Match = props => {
   const matchProfile = event => {
     // prevent default refresh
     event.preventDefault()
+    // profile
 
     // make updateMatch axios call (passing profileId)
     updateMatch(event.target.id, user)
@@ -62,18 +71,30 @@ const Match = props => {
       .then(res => {
         // if a match was created
         if (res.status === 201) {
-          // increase skipCounter
-          skipProfile()
-          // add event.target.id to user.profileId.sentMatches array
-          user.profileId.sentMatches.push(event.target.id)
+          // reset skipCounter
+          setSkipCounter(0)
+          const otherProfileId = res.data.match.profileTwo.owner
+          // add otherProfileId to user.profileId.sentMatches array
+          user.profileId.sentMatches.push(otherProfileId)
           // setUser
           setUser(user)
+
+          // remove profile from profiles state array
+          const newProfiles = profiles.filter(profile => profile._id !== otherProfileId)
+          // set profiles state
+          setProfiles(newProfiles)
 
           // if a match is updated
         } else if (res.status === 200) {
           // increase skipCounter
           skipProfile()
           // remove profile from match view
+          const otherProfileId = res.data.match.profileOne.owner
+          // add otherProfileId to user.profileId.acceptedMatches array
+          user.profileId.acceptedMatches.push(otherProfileId)
+          // setUser
+          setUser(user)
+
           // send user msg that they matched with this profile to view matches
         } else {
           console.log('something else is wrong')
@@ -117,7 +138,7 @@ const Match = props => {
   return (
     <div className="row">
       <div className="col-sm-10 col-md-8 mx-auto mt-5">
-        <h3>Loading...</h3>
+        <h3>No one to match with! Check your matches to see if you have any matches.</h3>
       </div>
     </div>
   )
