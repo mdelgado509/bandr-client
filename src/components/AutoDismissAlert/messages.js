@@ -14,5 +14,6 @@ export default {
   deleteProfileSuccess: 'You successfully deleted your profile! Go create another to start matching.',
   deleteProfileFailure: 'Something went wrong! Make sure this is your profile.',
   indexProfilesSuccess: 'Here are your potential matches!',
-  indexProfilesFailure: 'Something went wrong.'
+  indexProfilesFailure: 'Something went wrong.',
+  updateMatchSuccess: 'You matched with the last user! Go to your matches to see.'
 }

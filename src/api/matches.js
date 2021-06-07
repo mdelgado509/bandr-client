@@ -22,3 +22,13 @@ export const updateMatch = (id, user) => {
     }
   })
 }
+
+export const indexMatches = user => {
+  return axios({
+    method: 'GET',
+    url: apiUrl + '/matches',
+    headers: {
+      'Authorization': `Bearer ${user.token}`
+    }
+  })
+}

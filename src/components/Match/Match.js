@@ -103,6 +103,11 @@ const Match = props => {
           setProfiles(newProfiles)
 
           // send user msg that they matched with this profile to view matches
+          msgAlert({
+            heading: 'Match made!',
+            message: messages.updateMatchSuccess,
+            variant: 'success'
+          })
         } else {
           console.log('something else is wrong')
         }

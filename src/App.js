@@ -12,6 +12,7 @@ import ChangePassword from './components/ChangePassword/ChangePassword'
 import ProfileCreate from './components/ProfileCreate/ProfileCreate'
 import Profile from './components/Profile/Profile'
 import Match from './components/Match/Match'
+import Matches from './components/Matches/Matches'
 
 class App extends Component {
   constructor (props) {
@@ -76,6 +77,9 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/match' render={() => (
             <Match msgAlert={this.msgAlert} user={user} setUser={this.setUser} />
+          )} />
+          <AuthenticatedRoute user={user} path='/matches' render={() => (
+            <Matches msgAlert={this.msgAlert} user={user} setUser={this.setUser} />
           )} />
         </main>
       </Fragment>

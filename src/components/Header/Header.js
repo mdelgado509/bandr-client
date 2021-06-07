@@ -28,6 +28,7 @@ const profileOptions = (
     {authenticatedOptions}
     <Nav.Link href="#profile">Profile</Nav.Link>
     <Nav.Link href="#match">Match</Nav.Link>
+    <Nav.Link href="#matches">Matches</Nav.Link>
   </Fragment>
 )
 
