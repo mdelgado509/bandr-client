@@ -86,14 +86,19 @@ const Match = props => {
 
           // if a match is updated
         } else if (res.status === 200) {
-          // increase skipCounter
-          skipProfile()
+          // reset skipCounter
+          setSkipCounter(0)
           // remove profile from match view
-          const otherProfileId = res.data.match.profileOne.owner
+          const otherProfileId = res.data.match.profileOne.owner._id
           // add otherProfileId to user.profileId.acceptedMatches array
           user.profileId.acceptedMatches.push(otherProfileId)
           // setUser
           setUser(user)
+
+          // remove profile from profiles state array
+          const newProfiles = profiles.filter(profile => profile._id !== otherProfileId)
+          // set profiles state
+          setProfiles(newProfiles)
 
           // send user msg that they matched with this profile to view matches
         } else {
