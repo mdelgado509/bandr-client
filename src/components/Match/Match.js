@@ -25,7 +25,9 @@ const Match = props => {
 
         const userSentMatches = user.profileId.sentMatches
 
-        const filteredProfiles = unfilteredProfiles.filter(profile => !userSentMatches.includes(profile._id))
+        const userAcceptedMatches = user.profileId.acceptedMatches
+
+        const filteredProfiles = unfilteredProfiles.filter(profile => !userSentMatches.includes(profile._id) && !userAcceptedMatches.includes(profile._id))
 
         setProfiles(filteredProfiles)
       })
