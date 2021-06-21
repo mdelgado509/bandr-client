@@ -28,7 +28,7 @@ const Match = props => {
         const userAcceptedMatches = user.profileId.acceptedMatches
 
         const filteredProfiles = unfilteredProfiles.filter(profile => !userSentMatches.includes(profile._id) && !userAcceptedMatches.includes(profile._id))
-
+        console.log(filteredProfiles)
         setProfiles(filteredProfiles)
       })
       // add success messaging
@@ -65,59 +65,50 @@ const Match = props => {
   const matchProfile = event => {
     // prevent default refresh
     event.preventDefault()
-    // profile
 
     // make updateMatch axios call (passing profileId)
     updateMatch(event.target.id, user)
-      // console log response
       .then(res => {
-        // if a match was created
-        if (res.status === 201) {
-          // reset skipCounter
-          setSkipCounter(0)
-          const otherProfileId = res.data.match.profileTwo.owner
-          // add otherProfileId to user.profileId.sentMatches array
+        // the program looks at res.status
+        // holds otherProfileId
+        let otherProfileId
+        if (res.status === 201) { // if created adds profileTwo to sentMatches
+          otherProfileId = res.data.match.profileTwo.owner
           user.profileId.sentMatches.push(otherProfileId)
-          // setUser
-          setUser(user)
-
-          // remove profile from profiles state array
-          const newProfiles = profiles.filter(profile => profile._id !== otherProfileId)
-          // set profiles state
-          setProfiles(newProfiles)
-
-          // if a match is updated
-        } else if (res.status === 200) {
-          // reset skipCounter
-          setSkipCounter(0)
-          // remove profile from match view
-          const otherProfileId = res.data.match.profileOne.owner._id
-          // add otherProfileId to user.profileId.acceptedMatches array
+        } else if (res.status === 200) { // else if updated adds profileOne to acceptedMatches
+          otherProfileId = res.data.match.profileOne.owner._id
           user.profileId.acceptedMatches.push(otherProfileId)
-          // setUser
-          setUser(user)
-
-          // remove profile from profiles state array
-          const newProfiles = profiles.filter(profile => profile._id !== otherProfileId)
-          // set profiles state
-          setProfiles(newProfiles)
-
           // send user msg that they matched with this profile to view matches
           msgAlert({
             heading: 'Match made!',
             message: messages.updateMatchSuccess,
             variant: 'success'
           })
-        } else {
-          console.log('something else is wrong')
         }
+        // sets user
+        setUser(user)
+        // return otherProfileId
+        return otherProfileId
       })
-      .catch(error => console.log(error))
+      .then(otherProfileId => {
+        // remove profile from profiles state array and skipProfile
+        const filteredProfiles = profiles.filter(profile => profile._id !== otherProfileId)
+
+        // if skipCounter === filteredProfiles.length reset skipCounter
+        if (skipCounter === filteredProfiles.length) {
+          setSkipCounter(0)
+        } // else the skipCounter will choose next index after array filter
+
+        // set new profiles state
+        setProfiles(filteredProfiles)
+      })
+      .catch(() => console.error)
   }
 
   // if profiles array is populated
   if (profiles.length > 0) {
     // set currentProfile to skipCounter index
+    console.log(skipCounter)
     const currentProfile = profiles[skipCounter]
     return (
       <div className="row">
