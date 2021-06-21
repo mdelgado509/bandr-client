@@ -39,10 +39,12 @@ I wanted to create an app to make it easier for musicians to find work and for e
 ![wireframe2](https://media.git.generalassemb.ly/user/35054/files/3fccee80-c2bb-11eb-9759-744ccef12177)
 
 ## Problem-solving process and strategy
+
+
 I decided to focus on creating profile and match routes that served the user functionality. Most of the issues I had were from more of a system design standpoint. For example, I began with a create match route, and an update match route. I eventually combined the two so that everytime a user called update match, if the match didn't exist, a new match was created. The client side also posed interesting system design questions, like how to keep track of the users profile information. I wound up incorperating an additional line of code in the backend sign-in route so that I could set it to the user state in the front end.
 
 ## Unsolved Problems
-- Deleting matches
-- Viewing individual matches
-- Messaging between matches
-- Will users that send a match at the same time ever match?
+- In development match instances of a deleted profile (person B) are dropped from the test database, but in production the match instances are only modified to set the user profile (person B) to null, causing the app to break if signed in as the other user (person A).
+- Messaging between users with profiles that match (web sockets?).
+- Additional CRUD actions for match resource.
+- Styling, reorganization of visual UI components, and a swipe-left swipe-right feature.

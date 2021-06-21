@@ -9,7 +9,10 @@ const Matches = props => {
 
   useEffect(() => {
     indexMatches(user)
-      .then(res => setmatches(res.data.matches))
+      .then(res => {
+        console.log(res)
+        setmatches(res.data.matches)
+      })
       .catch(console.error)
   }, [])
 
