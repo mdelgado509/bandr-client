@@ -39,12 +39,12 @@ I wanted to create an app to make it easier for musicians to find work and for e
 ![wireframe2](https://media.git.generalassemb.ly/user/35054/files/3fccee80-c2bb-11eb-9759-744ccef12177)
 
 ## Problem-solving process and strategy
-
-
-I decided to focus on creating profile and match routes that served the user functionality. Most of the issues I had were from more of a system design standpoint. For example, I began with a create match route, and an update match route. I eventually combined the two so that everytime a user called update match, if the match didn't exist, a new match was created. The client side also posed interesting system design questions, like how to keep track of the users profile information. I wound up incorperating an additional line of code in the backend sign-in route so that I could set it to the user state in the front end.
+Working with an additional resource (users, profiles, and their matches) added a new layer of complexity and posed interesting questions when designing the API and client application. In designing the back end, I chose to only allow users to create and own one profile at a time to focus on the matching features and create a life-like experience for users (assuming you can create only one dating profile at a time per email). For matches, I wanted to create a scenario that differed from the traditional friend request and acceptance, so I designed the match component to make one API call that would create a match instance or update it to accepted if the other user already sent the current user a match. Note that there may be multiple solutions to this design question, such as using async / await and making sepereate API calls. 
+Indexing profiles to match with also posed some interesting design questions in regard to front end development. I leveraged setting user state by populating the user's `profileId` field in the back end sign-in route. This way the app would keep track of whether the user had a profile and what the profile type was if it was already created. This was also important for indexing other users profiles to match with, as the user only wants to match with profiles of the opposite type.
 
 ## Unsolved Problems
 - In development match instances of a deleted profile (person B) are dropped from the test database, but in production the match instances are only modified to set the user profile (person B) to null, causing the app to break if signed in as the other user (person A).
+- Is one API call to a nested backend route faster than multiple calls using async / await ?
 - Messaging between users with profiles that match (web sockets?).
 - Additional CRUD actions for match resource.
 - Styling, reorganization of visual UI components, and a swipe-left swipe-right feature.
