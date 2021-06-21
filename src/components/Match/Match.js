@@ -98,6 +98,7 @@ const Match = props => {
         if (skipCounter === filteredProfiles.length) {
           setSkipCounter(0)
         } // else the skipCounter will choose next index after array filter
+
         // set new profiles state
         setProfiles(filteredProfiles)
       })
