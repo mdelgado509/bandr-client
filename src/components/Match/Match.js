@@ -29,7 +29,6 @@ const Match = props => {
         const userAcceptedMatches = user.profileId.acceptedMatches
 
         const filteredProfiles = unfilteredProfiles.filter(profile => !userSentMatches.includes(profile._id) && !userAcceptedMatches.includes(profile._id))
-        console.log(filteredProfiles)
         setProfiles(filteredProfiles)
       })
       // add success messaging
@@ -63,12 +62,9 @@ const Match = props => {
   }
 
   // matchProfile function
-  const matchProfile = event => {
-    // prevent default refresh
-    event.preventDefault()
-
+  const matchProfile = currentProfile => {
     // make updateMatch axios call (passing profileId)
-    updateMatch(event.target.id, user)
+    updateMatch(currentProfile._id, user)
       .then(res => {
         // the program looks at res.status
         // holds otherProfileId
@@ -106,16 +102,18 @@ const Match = props => {
       .catch(() => console.error)
   }
 
-  const onSwipe = (direction) => {
+  const onSwipe = (direction, currentProfile) => {
     if (direction === 'left') {
       skipProfile()
+    } else if (direction === 'right') {
+      matchProfile(currentProfile)
     }
     console.log('You swiped: ' + direction)
   }
 
-  const onCardLeftScreen = (myIdentifier) => {
-    console.log(myIdentifier + ' left the screen')
-  }
+  // const onCardLeftScreen = (myIdentifier) => {
+  //   console.log(myIdentifier + ' left the screen')
+  // }
 
   // if profiles array is populated
   if (profiles.length > 0) {
@@ -127,9 +125,9 @@ const Match = props => {
         <div className="col-sm-10 col-md-8 mx-auto mt-5">
           <TinderCard
             key={currentProfile._id}
-            onSwipe={onSwipe}
-            onCardLeftScreen={() => onCardLeftScreen('fooBar')}
-            preventSwipe={['up', 'down']}
+            onSwipe={(direction) => onSwipe(direction, currentProfile)}
+            // onCardLeftScreen={() => onCardLeftScreen('fooBar')}
+            preventSwipe={profiles.length > 1 ? ['up', 'down'] : ['up', 'down', 'left']}
           >
             <Card style={{ width: '18rem' }}>
               <Card.Body>
