@@ -4,6 +4,7 @@ import { showPotentialMatches, updateMatch } from '../../api/matches'
 // import messaging
 import messages from '../AutoDismissAlert/messages'
 
+import TinderCard from 'react-tinder-card'
 // import Card from react bootstrap
 import Card from 'react-bootstrap/Card'
 
@@ -105,6 +106,14 @@ const Match = props => {
       .catch(() => console.error)
   }
 
+  const onSwipe = (direction) => {
+    console.log('You swiped: ' + direction)
+  }
+
+  const onCardLeftScreen = (myIdentifier) => {
+    console.log(myIdentifier + ' left the screen')
+  }
+
   // if profiles array is populated
   if (profiles.length > 0) {
     // set currentProfile to skipCounter index
@@ -113,26 +122,28 @@ const Match = props => {
     return (
       <div className="row">
         <div className="col-sm-10 col-md-8 mx-auto mt-5">
-          <Card style={{ width: '18rem' }}>
-            <Card.Body>
-              <Card.Title>{currentProfile.title}</Card.Title>
-              <Card.Subtitle style={{ textTransform: 'capitalize' }} className="mb-2 text-muted">{currentProfile.type}</Card.Subtitle>
-              <Card.Text>
-                {currentProfile.text}
-              </Card.Text>
-              <Card.Link href="#" onClick={event => {
-                // because calling skipProfile within matchProfile caused
-                // synthetic event warnings
-                // (related to event.preventDefault() vs event.persist())
-                event.preventDefault()
-                // call skipProfile
-                skipProfile()
-              }}>
-              Skip
-              </Card.Link>
-              <Card.Link href="#" id={currentProfile._id} onClick={matchProfile}>Match</Card.Link>
-            </Card.Body>
-          </Card>
+          <TinderCard onSwipe={onSwipe} onCardLeftScreen={() => onCardLeftScreen('fooBar')} preventSwipe={['right', 'left']}>
+            <Card style={{ width: '18rem' }}>
+              <Card.Body>
+                <Card.Title>{currentProfile.title}</Card.Title>
+                <Card.Subtitle style={{ textTransform: 'capitalize' }} className="mb-2 text-muted">{currentProfile.type}</Card.Subtitle>
+                <Card.Text>
+                  {currentProfile.text}
+                </Card.Text>
+                <Card.Link href="#" onClick={event => {
+                  // because calling skipProfile within matchProfile caused
+                  // synthetic event warnings
+                  // (related to event.preventDefault() vs event.persist())
+                  event.preventDefault()
+                  // call skipProfile
+                  skipProfile()
+                }}>
+                Skip
+                </Card.Link>
+                <Card.Link href="#" id={currentProfile._id} onClick={matchProfile}>Match</Card.Link>
+              </Card.Body>
+            </Card>
+          </TinderCard>
         </div>
       </div>
     )
