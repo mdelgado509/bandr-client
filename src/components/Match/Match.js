@@ -107,6 +107,9 @@ const Match = props => {
   }
 
   const onSwipe = (direction) => {
+    if (direction === 'left') {
+      skipProfile()
+    }
     console.log('You swiped: ' + direction)
   }
 
@@ -122,7 +125,12 @@ const Match = props => {
     return (
       <div className="row">
         <div className="col-sm-10 col-md-8 mx-auto mt-5">
-          <TinderCard onSwipe={onSwipe} onCardLeftScreen={() => onCardLeftScreen('fooBar')} preventSwipe={['right', 'left']}>
+          <TinderCard
+            key={currentProfile._id}
+            onSwipe={onSwipe}
+            onCardLeftScreen={() => onCardLeftScreen('fooBar')}
+            preventSwipe={['up', 'down']}
+          >
             <Card style={{ width: '18rem' }}>
               <Card.Body>
                 <Card.Title>{currentProfile.title}</Card.Title>
