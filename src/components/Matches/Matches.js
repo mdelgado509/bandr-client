@@ -9,7 +9,10 @@ const Matches = props => {
 
   useEffect(() => {
     indexMatches(user)
-      .then(res => setmatches(res.data.matches))
+      .then(res => {
+        const matches = res.data.matches.filter(match => match.profileOne.owner && match.profileTwo.owner)
+        setmatches(matches)
+      })
       .catch(console.error)
   }, [])
 
