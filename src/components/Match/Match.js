@@ -134,14 +134,14 @@ const Match = props => {
     if (currentProfile) {
       return (
         <div className="row">
-          <div className="col-sm-10 col-md-10 mx-auto mt-5">
+          <div className="col-sm-10 col-md-8 col-lg-6 mx-auto mt-5">
             <TinderCard
               key={currentProfile._id}
               onSwipe={(direction) => onSwipe(direction, currentProfile)}
               // onCardLeftScreen={() => onCardLeftScreen('fooBar')}
               preventSwipe={profiles.length > 1 ? ['up', 'down'] : ['up', 'down', 'left']}
             >
-              <Card style={{ width: '18rem' }}>
+              <Card>
                 <Card.Body>
                   <Card.Title>{currentProfile.title}</Card.Title>
                   <Card.Subtitle style={{ textTransform: 'capitalize' }} className="mb-2 text-muted">{currentProfile.type}</Card.Subtitle>

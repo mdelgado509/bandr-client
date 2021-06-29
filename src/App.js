@@ -14,6 +14,8 @@ import Profile from './components/Profile/Profile'
 import Match from './components/Match/Match'
 import Matches from './components/Matches/Matches'
 
+const backgroundImageUrl = 'https://i.imgur.com/cQegYk3.jpg'
+
 class App extends Component {
   constructor (props) {
     super(props)
@@ -56,32 +58,41 @@ class App extends Component {
             deleteAlert={this.deleteAlert}
           />
         ))}
-        <main className="container">
-          <Route path='/sign-up' render={() => (
-            <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
-          )} />
-          <Route path='/sign-in' render={() => (
-            <SignIn msgAlert={this.msgAlert} setUser={this.setUser} />
-          )} />
-          <AuthenticatedRoute user={user} path='/sign-out' render={() => (
-            <SignOut msgAlert={this.msgAlert} clearUser={this.clearUser} user={user} />
-          )} />
-          <AuthenticatedRoute user={user} path='/change-password' render={() => (
-            <ChangePassword msgAlert={this.msgAlert} user={user} />
-          )} />
-          <AuthenticatedRoute user={user} path='/create-profile' render={() => (
-            <ProfileCreate msgAlert={this.msgAlert} user={user} setUser={this.setUser} />
-          )} />
-          <AuthenticatedRoute user={user} path='/profile' render={() => (
-            <Profile msgAlert={this.msgAlert} user={user} setUser={this.setUser} />
-          )} />
-          <AuthenticatedRoute user={user} path='/match' render={() => (
-            <Match msgAlert={this.msgAlert} user={user} setUser={this.setUser} />
-          )} />
-          <AuthenticatedRoute user={user} path='/matches' render={() => (
-            <Matches msgAlert={this.msgAlert} user={user} setUser={this.setUser} />
-          )} />
-        </main>
+        <div style={{
+          // add background image, using url
+          backgroundImage: `url(${backgroundImageUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          width: '100%',
+          height: '100vh'
+        }}>
+          <main className="container">
+            <Route path='/sign-up' render={() => (
+              <SignUp msgAlert={this.msgAlert} setUser={this.setUser} />
+            )} />
+            <Route path='/sign-in' render={() => (
+              <SignIn msgAlert={this.msgAlert} setUser={this.setUser} />
+            )} />
+            <AuthenticatedRoute user={user} path='/sign-out' render={() => (
+              <SignOut msgAlert={this.msgAlert} clearUser={this.clearUser} user={user} />
+            )} />
+            <AuthenticatedRoute user={user} path='/change-password' render={() => (
+              <ChangePassword msgAlert={this.msgAlert} user={user} />
+            )} />
+            <AuthenticatedRoute user={user} path='/create-profile' render={() => (
+              <ProfileCreate msgAlert={this.msgAlert} user={user} setUser={this.setUser} />
+            )} />
+            <AuthenticatedRoute user={user} path='/profile' render={() => (
+              <Profile msgAlert={this.msgAlert} user={user} setUser={this.setUser} />
+            )} />
+            <AuthenticatedRoute user={user} path='/match' render={() => (
+              <Match msgAlert={this.msgAlert} user={user} setUser={this.setUser} />
+            )} />
+            <AuthenticatedRoute user={user} path='/matches' render={() => (
+              <Matches msgAlert={this.msgAlert} user={user} setUser={this.setUser} />
+            )} />
+          </main>
+        </div>
       </Fragment>
     )
   }

@@ -218,7 +218,7 @@ const Profile = props => {
   return (
     <div className="row">
       <div className="col-sm-10 col-md-8 mx-auto mt-5">
-        <Card style={{ width: '18rem' }}>
+        <Card>
           <Card.Body>
             <Card.Title>{profile.title}</Card.Title>
             <Card.Subtitle style={{ textTransform: 'capitalize' }} className="mb-2 text-muted">{profile.type}</Card.Subtitle>

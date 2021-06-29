@@ -17,7 +17,7 @@ const Matches = props => {
   }, [])
 
   const matchesJsx = matches.map(match => (
-    <Card key={match._id} style={{ width: '18rem' }}>
+    <Card key={match._id}>
       <Card.Body>
         <Card.Title>{match.profileOne.owner._id === user.profileId._id ? match.profileTwo.owner.title : match.profileOne.owner.title}</Card.Title>
         <Card.Subtitle style={{ textTransform: 'capitalize' }} className="mb-2 text-muted">{match.profileOne.owner._id === user.profileId._id ? match.profileTwo.owner.type : match.profileOne.owner.type}</Card.Subtitle>
