@@ -185,9 +185,10 @@ const Profile = props => {
   if (deleting) {
     return (
       <div className="row">
-        <div className="col-sm-10 col-md-8 mx-auto mt-5">
-          <h3>Are you sure you want to delete your profile?</h3>
+        <div className="col-8 col-md-6 col-lg-5 col-xl-4 mx-auto mt-5">
+          <h3 className="text-white">Are you sure you want to delete your profile?</h3>
           <Button
+            className="mr-2"
             variant="primary"
             type="submit"
             onClick={destroy}
