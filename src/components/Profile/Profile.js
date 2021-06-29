@@ -132,11 +132,11 @@ const Profile = props => {
   if (updating) {
     return (
       <div className="row">
-        <div className="col-sm-10 col-md-8 mx-auto mt-5">
-          <h3>You are trying to update!</h3>
+        <div className="col-8 col-md-6 col-lg-5 col-xl-4 mx-auto mt-5">
+          <h3 className="text-white">Update Profile</h3>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
+              <Form.Label className="text-white">Name</Form.Label>
               <Form.Control
                 required
                 type="text"
@@ -147,7 +147,7 @@ const Profile = props => {
               />
             </Form.Group>
             <Form.Group controlId="description">
-              <Form.Label>Description</Form.Label>
+              <Form.Label className="text-white">Description</Form.Label>
               <Form.Control
                 required
                 type="text"
@@ -159,6 +159,7 @@ const Profile = props => {
               />
             </Form.Group>
             <Button
+              className="mr-2"
               variant="primary"
               type="submit"
             >
@@ -217,12 +218,13 @@ const Profile = props => {
 
   return (
     <div className="row">
-      <div className="col-sm-10 col-md-8 mx-auto mt-5">
-        <Card>
+      <div className="col-8 col-md-6 col-lg-5 col-xl-4 mx-auto mt-5">
+        <h3 className="text-white text-center">My Profile</h3>
+        <Card className="text-center">
           <Card.Body>
             <Card.Title>{profile.title}</Card.Title>
             <Card.Subtitle style={{ textTransform: 'capitalize' }} className="mb-2 text-muted">{profile.type}</Card.Subtitle>
-            <Card.Text>
+            <Card.Text className="text-justify">
               {profile.text}
             </Card.Text>
             <Card.Link href="#" onClick={updateSwitch}>Update</Card.Link>

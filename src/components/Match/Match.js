@@ -134,18 +134,19 @@ const Match = props => {
     if (currentProfile) {
       return (
         <div className="row">
-          <div className="col-sm-10 col-md-8 col-lg-6 mx-auto mt-5">
+          <div className="col-8 col-md-6 col-lg-5 col-xl-4 mx-auto mt-5">
+            <h3 className="text-white text-center">Potential Matches</h3>
             <TinderCard
               key={currentProfile._id}
               onSwipe={(direction) => onSwipe(direction, currentProfile)}
               // onCardLeftScreen={() => onCardLeftScreen('fooBar')}
               preventSwipe={profiles.length > 1 ? ['up', 'down'] : ['up', 'down', 'left']}
             >
-              <Card>
+              <Card className="text-center">
                 <Card.Body>
                   <Card.Title>{currentProfile.title}</Card.Title>
                   <Card.Subtitle style={{ textTransform: 'capitalize' }} className="mb-2 text-muted">{currentProfile.type}</Card.Subtitle>
-                  <Card.Text>
+                  <Card.Text className="text-justify">
                     {currentProfile.text}
                   </Card.Text>
                 </Card.Body>
@@ -160,7 +161,7 @@ const Match = props => {
   return (
     <div className="row">
       <div className="col-sm-10 col-md-8 mx-auto mt-5">
-        <h3>That&apos;s all of them! Check your matches to see if you&apos;ve matched with anyone.</h3>
+        <h3 className="text-white text-center">There&apos;s no one left to match with! Check your matches to see if you&apos;ve matched with anyone.</h3>
       </div>
     </div>
   )
