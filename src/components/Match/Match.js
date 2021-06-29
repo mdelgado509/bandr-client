@@ -1,19 +1,30 @@
-// import react
+// import from react - React
+// import State and Effect Hooks
 import React, { useState, useEffect } from 'react'
+
+// import API calls to show all profiles a user can match with
+// and import updateMatch API call
 import { showPotentialMatches, updateMatch } from '../../api/matches'
-// import messaging
+
+// import user messaging auto dismiss alerts
 import messages from '../AutoDismissAlert/messages'
 
+// import TinderCard from react-tinder-card npm package
 import TinderCard from 'react-tinder-card'
 // import Card from react bootstrap
 import Card from 'react-bootstrap/Card'
 
-// define Profiles function component
+// Match function component
+// This gives the user the ability to search through profiles
+// Create matches and update matches while skipping through
+// An array of Profiles
 const Match = props => {
+  // State Hook to hold profile data
   const [profiles, setProfiles] = useState([])
+  // State Hook to keep track of the order in the profile State hook array
   const [skipCounter, setSkipCounter] = useState(0)
 
-  // deconstruct user from props
+  // deconstruct user,  msgAlert, and setUser from props
   const { user, msgAlert, setUser } = props
 
   // useEffect to set profile type state
@@ -120,45 +131,36 @@ const Match = props => {
     // set currentProfile to skipCounter index
     console.log(skipCounter)
     const currentProfile = profiles[skipCounter]
-    return (
-      <div className="row">
-        <div className="col-sm-10 col-md-8 mx-auto mt-5">
-          <TinderCard
-            key={currentProfile._id}
-            onSwipe={(direction) => onSwipe(direction, currentProfile)}
-            // onCardLeftScreen={() => onCardLeftScreen('fooBar')}
-            preventSwipe={profiles.length > 1 ? ['up', 'down'] : ['up', 'down', 'left']}
-          >
-            <Card style={{ width: '18rem' }}>
-              <Card.Body>
-                <Card.Title>{currentProfile.title}</Card.Title>
-                <Card.Subtitle style={{ textTransform: 'capitalize' }} className="mb-2 text-muted">{currentProfile.type}</Card.Subtitle>
-                <Card.Text>
-                  {currentProfile.text}
-                </Card.Text>
-                <Card.Link href="#" onClick={event => {
-                  // because calling skipProfile within matchProfile caused
-                  // synthetic event warnings
-                  // (related to event.preventDefault() vs event.persist())
-                  event.preventDefault()
-                  // call skipProfile
-                  skipProfile()
-                }}>
-                Skip
-                </Card.Link>
-                <Card.Link href="#" id={currentProfile._id} onClick={matchProfile}>Match</Card.Link>
-              </Card.Body>
-            </Card>
-          </TinderCard>
+    if (currentProfile) {
+      return (
+        <div className="row">
+          <div className="col-sm-10 col-md-10 mx-auto mt-5">
+            <TinderCard
+              key={currentProfile._id}
+              onSwipe={(direction) => onSwipe(direction, currentProfile)}
+              // onCardLeftScreen={() => onCardLeftScreen('fooBar')}
+              preventSwipe={profiles.length > 1 ? ['up', 'down'] : ['up', 'down', 'left']}
+            >
+              <Card style={{ width: '18rem' }}>
+                <Card.Body>
+                  <Card.Title>{currentProfile.title}</Card.Title>
+                  <Card.Subtitle style={{ textTransform: 'capitalize' }} className="mb-2 text-muted">{currentProfile.type}</Card.Subtitle>
+                  <Card.Text>
+                    {currentProfile.text}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </TinderCard>
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 
   return (
     <div className="row">
       <div className="col-sm-10 col-md-8 mx-auto mt-5">
-        <h3>No one to match with! Check your matches to see if you have any matches.</h3>
+        <h3>That&apos;s all of them! Check your matches to see if you&apos;ve matched with anyone.</h3>
       </div>
     </div>
   )
