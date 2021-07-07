@@ -1,3 +1,6 @@
+// this file will eventually become the main match component when the tidner-
+// card bug is resolved
+
 // import from react - React
 // import State and Effect Hooks
 import React, { useState, useEffect } from 'react'
@@ -9,6 +12,8 @@ import { showPotentialMatches, updateMatch } from '../../api/matches'
 // import user messaging auto dismiss alerts
 import messages from '../AutoDismissAlert/messages'
 
+// // import TinderCard from react-tinder-card npm package
+// import TinderCard from 'react-tinder-card'
 // import Card from react bootstrap
 import Card from 'react-bootstrap/Card'
 
@@ -71,12 +76,9 @@ const Match = props => {
   }
 
   // matchProfile function
-  const matchProfile = event => {
-    // prevent default refresh
-    event.preventDefault()
-
+  const matchProfile = currentProfile => {
     // make updateMatch axios call (passing profileId)
-    updateMatch(event.target.id, user)
+    updateMatch(currentProfile._id, user)
       .then(res => {
         // the program looks at res.status
         // holds otherProfileId
@@ -114,37 +116,49 @@ const Match = props => {
       .catch(() => console.error)
   }
 
+  const onSwipe = (direction, currentProfile) => {
+    if (direction === 'left') {
+      skipProfile()
+    } else if (direction === 'right') {
+      matchProfile(currentProfile)
+    }
+    console.log('You swiped: ' + direction)
+  }
+
+  // const onCardLeftScreen = (myIdentifier) => {
+  //   console.log(myIdentifier + ' left the screen')
+  // }
+
   // if profiles array is populated
   if (profiles.length > 0) {
     // set currentProfile to skipCounter index
+    console.log(skipCounter)
     const currentProfile = profiles[skipCounter]
-    return (
-      <div className="row">
-        <div className="col-8 col-md-6 col-lg-5 col-xl-4 mx-auto mt-5">
-          <h3 className="text-white text-center">Potential Matches</h3>
-          <Card key={currentProfile._id} className="text-center">
-            <Card.Body>
-              <Card.Title>{currentProfile.title}</Card.Title>
-              <Card.Subtitle style={{ textTransform: 'capitalize' }} className="mb-2 text-muted">{currentProfile.type}</Card.Subtitle>
-              <Card.Text className="text-justify">
-                {currentProfile.text}
-              </Card.Text>
-              <Card.Link href="#" onClick={event => {
-                // because calling skipProfile within matchProfile caused
-                // synthetic event warnings
-                // (related to event.preventDefault() vs event.persist())
-                event.preventDefault()
-                // call skipProfile
-                skipProfile()
-              }}>
-              Skip
-              </Card.Link>
-              <Card.Link href="#" id={currentProfile._id} onClick={matchProfile}>Match</Card.Link>
-            </Card.Body>
-          </Card>
+    if (currentProfile) {
+      return (
+        <div className="row">
+          <div className="col-8 col-md-6 col-lg-5 col-xl-4 mx-auto mt-5">
+            <h3 className="text-white text-center">Potential Matches</h3>
+            <TinderCard
+              key={currentProfile._id}
+              onSwipe={(direction) => onSwipe(direction, currentProfile)}
+              // onCardLeftScreen={() => onCardLeftScreen('fooBar')}
+              preventSwipe={profiles.length > 1 ? ['up', 'down'] : ['up', 'down', 'left']}
+            >
+              <Card className="text-center">
+                <Card.Body>
+                  <Card.Title>{currentProfile.title}</Card.Title>
+                  <Card.Subtitle style={{ textTransform: 'capitalize' }} className="mb-2 text-muted">{currentProfile.type}</Card.Subtitle>
+                  <Card.Text className="text-justify">
+                    {currentProfile.text}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </TinderCard>
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 
   return (
