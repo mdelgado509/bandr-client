@@ -1,18 +1,28 @@
-// import react
+// import from react - React
+// import State and Effect Hooks
 import React, { useState, useEffect } from 'react'
+
+// import API calls to show all profiles a user can match with
+// and import updateMatch API call
 import { showPotentialMatches, updateMatch } from '../../api/matches'
-// import messaging
+
+// import user messaging auto dismiss alerts
 import messages from '../AutoDismissAlert/messages'
 
 // import Card from react bootstrap
 import Card from 'react-bootstrap/Card'
 
-// define Profiles function component
+// Match function component
+// This gives the user the ability to search through profiles
+// Create matches and update matches while skipping through
+// An array of Profiles
 const Match = props => {
+  // State Hook to hold profile data
   const [profiles, setProfiles] = useState([])
+  // State Hook to keep track of the order in the profile State hook array
   const [skipCounter, setSkipCounter] = useState(0)
 
-  // deconstruct user from props
+  // deconstruct user,  msgAlert, and setUser from props
   const { user, msgAlert, setUser } = props
 
   // useEffect to set profile type state
@@ -28,7 +38,6 @@ const Match = props => {
         const userAcceptedMatches = user.profileId.acceptedMatches
 
         const filteredProfiles = unfilteredProfiles.filter(profile => !userSentMatches.includes(profile._id) && !userAcceptedMatches.includes(profile._id))
-        console.log(filteredProfiles)
         setProfiles(filteredProfiles)
       })
       // add success messaging
@@ -108,16 +117,16 @@ const Match = props => {
   // if profiles array is populated
   if (profiles.length > 0) {
     // set currentProfile to skipCounter index
-    console.log(skipCounter)
     const currentProfile = profiles[skipCounter]
     return (
       <div className="row">
-        <div className="col-sm-10 col-md-8 mx-auto mt-5">
-          <Card style={{ width: '18rem' }}>
+        <div className="col-8 col-md-6 col-lg-5 col-xl-4 mx-auto mt-5">
+          <h3 className="text-white text-center">Potential Matches</h3>
+          <Card key={currentProfile._id} className="text-center">
             <Card.Body>
               <Card.Title>{currentProfile.title}</Card.Title>
               <Card.Subtitle style={{ textTransform: 'capitalize' }} className="mb-2 text-muted">{currentProfile.type}</Card.Subtitle>
-              <Card.Text>
+              <Card.Text className="text-justify">
                 {currentProfile.text}
               </Card.Text>
               <Card.Link href="#" onClick={event => {
@@ -141,7 +150,7 @@ const Match = props => {
   return (
     <div className="row">
       <div className="col-sm-10 col-md-8 mx-auto mt-5">
-        <h3>No one to match with! Check your matches to see if you have any matches.</h3>
+        <h3 className="text-white text-center">There&apos;s no one left to match with! Check your matches to see if you&apos;ve matched with anyone.</h3>
       </div>
     </div>
   )

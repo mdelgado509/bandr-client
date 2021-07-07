@@ -51,11 +51,11 @@ class SignUp extends Component {
 
     return (
       <div className="row">
-        <div className="col-sm-10 col-md-8 mx-auto mt-5">
-          <h3>Sign Up</h3>
+        <div className="col-8 col-md-6 col-lg-5 col-xl-4 mx-auto mt-5">
+          <h3 className="text-white">Sign Up</h3>
           <Form onSubmit={this.onSignUp}>
             <Form.Group controlId="email">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label className="text-white">Email address</Form.Label>
               <Form.Control
                 required
                 type="email"
@@ -66,7 +66,7 @@ class SignUp extends Component {
               />
             </Form.Group>
             <Form.Group controlId="password">
-              <Form.Label>Password</Form.Label>
+              <Form.Label className="text-white">Password</Form.Label>
               <Form.Control
                 required
                 name="password"
@@ -77,7 +77,7 @@ class SignUp extends Component {
               />
             </Form.Group>
             <Form.Group controlId="passwordConfirmation">
-              <Form.Label>Password Confirmation</Form.Label>
+              <Form.Label className="text-white">Password Confirmation</Form.Label>
               <Form.Control
                 required
                 name="passwordConfirmation"
